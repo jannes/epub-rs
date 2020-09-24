@@ -764,7 +764,7 @@ impl<R: Read + Seek> EpubDoc<R> {
                 let navpoint = NavPoint {
                     label: l.clone(),
                     content: c.clone(),
-                    play_order: play_order.unwrap_or(-1),
+                    play_order: play_order.unwrap_or(0),
                 };
                 self.toc.push(navpoint);
             }
