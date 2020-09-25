@@ -638,11 +638,29 @@ impl EpubDoc {
         // TODO: get docTitle
         // TODO: parse metadata (dtb:totalPageCount, dtb:depth, dtb:maxPageNumber)
 
+        let mut nav_points = Vec::new();
         for nav in mapnode.borrow().childs.iter() {
             let item = nav.borrow();
             if item.name.local_name != "navPoint" {
                 continue;
             }
+            nav_points.push(nav.clone());
+            for sub_nav in nav.borrow().childs.iter() {
+                let sub_item = sub_nav.borrow();
+                if sub_item.name.local_name != "navPoint" {
+                    continue;
+                }
+                nav_points.push(sub_nav.clone());
+            }
+        }
+
+        for nav in nav_points {
+            let item = nav.borrow();
+            // for nav in mapnode.borrow().childs.iter() {
+            //     let item = nav.borrow();
+            //     if item.name.local_name != "navPoint" {
+            //         continue;
+            //     }
             let play_order = item
                 .get_attr("playOrder")
                 .ok()
